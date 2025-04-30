@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { ChevronDown, MapPin, Calendar, Star, Clock, Users, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { FaHotel, FaPlane, FaUtensils, FaShieldAlt, FaCheck, FaMapMarkerAlt, FaRegClock, FaUsers, FaStar, FaCalendarAlt, FaPhoneAlt, FaEnvelope, FaCheckCircle } from "react-icons/fa";
 import itineraryData from '../../../data/itinerarypackages.json'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
-import packageCallbackService from '../../../services/packageCallbackService';
 
 const ItineraryPackage = () => {
   const navigate = useNavigate();
