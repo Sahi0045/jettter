@@ -4,6 +4,7 @@ import { FaShip, FaPhone, FaTimes, FaUser, FaEnvelope, FaCalendarAlt, FaCommentA
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import cruiseLineData from './data/cruiselines.json';
+import callbackService from '../../../services/callbackService';
 
 const cruiseHighlights = [
   { title: "Cruise Dining", img: "/images/dining.jpg" },
@@ -497,7 +498,16 @@ const Itinerary = () => {
         phone: formData.phone,
         email: formData.email,
         preferredTime: formData.preferredDate,
-        message: formData.message
+        message: formData.message,
+        type: 'cruise',
+        details: {
+          cruiseLine: cruiseData?.cruiseLine,
+          departure: cruiseData?.route?.departure,
+          arrival: cruiseData?.route?.arrival,
+          duration: cruiseData?.duration,
+          embarkationDate: cruiseData?.bookingInfo?.embarkation?.date,
+          disembarkationDate: cruiseData?.bookingInfo?.disembarkation?.date
+        }
       });
       
       console.log('Callback request successful:', result);
@@ -521,9 +531,8 @@ const Itinerary = () => {
     } catch (error) {
       console.error('Error submitting callback request:', error);
       setFormSubmitting(false);
-      // Display a more user-friendly error message
       setFormSubmitError(
-        'We encountered an issue saving your request. Please try again or contact us directly at support@jetsetgo.com'
+        'We encountered an issue saving your request. Please try again or contact us directly.'
       );
     }
   };

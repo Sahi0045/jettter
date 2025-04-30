@@ -5,6 +5,7 @@ import { FaHotel, FaPlane, FaUtensils, FaShieldAlt, FaCheck, FaMapMarkerAlt, FaR
 import itineraryData from '../../../data/itinerarypackages.json'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
+import callbackService from '../../../services/callbackService'
 
 const ItineraryPackage = () => {
   const navigate = useNavigate();
@@ -100,7 +101,7 @@ const ItineraryPackage = () => {
     
     try {
       // Call the package callback service to submit the form
-      const result = await packageCallbackService.createPackageCallbackRequest({
+      const result = await callbackService.createPackageCallbackRequest({
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
@@ -108,7 +109,13 @@ const ItineraryPackage = () => {
         guests: formData.guests || '2',
         budget: formData.budget || '500-1000',
         request: formData.request || '',
-        packageName: 'Dubai Explorer' // Default package name
+        packageName: packageData?.name || 'Dubai Explorer',
+        type: 'package',
+        details: {
+          destination: selectedPackage,
+          duration: packageData?.duration,
+          inclusions: Object.keys(packageData?.inclusions || {}).length
+        }
       });
       
       console.log('Form submission result:', result);
@@ -135,11 +142,9 @@ const ItineraryPackage = () => {
         setShowQuoteModal(false);
       }, 3000);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error in form submission:', error);
       setFormSubmitting(false);
-      setFormSubmitError(
-        'We encountered an issue saving your request. Please try again or contact us directly.'
-      );
+      setFormSubmitError('There was an error submitting your request. Please try again.');
     }
   }
 
